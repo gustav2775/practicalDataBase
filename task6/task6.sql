@@ -38,27 +38,43 @@ WHERE
             LIMIT 10) profile)
 GROUP BY to_user_id;
 
--- урок 6 задание 4 не придумал решение
 
-SELECT gender,count(counts) FROM (SELECT * FROM (
-(SELECT  gender, count(user_id) as counts FROM profile where gender in ('m','f') AND user_id in (SELECT 
-    user_id
+-- урок 6 задание 4 не выводит не верные данные
+SELECT 
+    gender, COUNT(counts)
 FROM
-    like_media ) group by gender) table1
-union
-(SELECT  gender, count(user_id) as counts from profile where gender in ('m','f')  AND user_id in ( SELECT 
-    user_id
-FROM
-    like_post
-)group by gender) table2
-union
-(SELECT  gender, count(user_id) as counts from profile where gender in ('m','f') AND user_id in (SELECT 
-   from_user_id
-FROM
-    like_user 
-) group by gender) table3
-) table4 )
-group by gender;
+    ((SELECT 
+        gender, COUNT(user_id) AS counts
+    FROM
+        profile
+    WHERE
+        gender IN ('m' , 'f')
+            AND user_id IN (SELECT 
+                user_id
+            FROM
+                like_media)
+    GROUP BY gender) UNION (SELECT 
+        gender, COUNT(user_id) AS counts
+    FROM
+        profile
+    WHERE
+        gender IN ('m' , 'f')
+            AND user_id IN (SELECT 
+                user_id
+            FROM
+                like_post)
+    GROUP BY gender) UNION (SELECT 
+        gender, COUNT(user_id) AS counts
+    FROM
+        profile
+    WHERE
+        gender IN ('m' , 'f')
+            AND user_id IN (SELECT 
+                from_user_id
+            FROM
+                like_user)
+    GROUP BY gender)) AS table4
+GROUP BY gender;
 
 -- урок 6 задание 5
 SELECT user_id,

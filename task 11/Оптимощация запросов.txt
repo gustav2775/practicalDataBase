@@ -1,0 +1,15 @@
+--Задание 10
+CREATE TABLE `log` (
+  `id` int NOT NULL,
+  `table_name` varchar(25) NOT NULL,
+  `name` varchar(45) NOT NULL,
+  `at_create` date NOT NULL
+) ENGINE=ARCHIVE DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+CREATE DEFINER=`root`@`localhost` TRIGGER `user_AFTER_INSERT` AFTER INSERT ON `user` FOR EACH ROW BEGIN
+	INSERT INTO `log` value (`id`=last_insert_id(),`table_name` = 'user', `name`= (select phone from `user` where id = last_insert_id()),`at_create` = now() );
+END
+
+CREATE DEFINER=`root`@`localhost` TRIGGER `media_AFTER_INSERT` AFTER INSERT ON `media` FOR EACH ROW BEGIN
+	insert INTO log value(id =  last_insert_id(), table_name = 'media', name = (select name from vk.media WHERE id = last_insert_id()) , at_create = NOW() ); 
+END

@@ -1,0 +1,17 @@
+
+-- Урок 10. Задание 1
+HSET ip 127.0.0.1 visit 1
+
+--Урок 10. Задание 2
+
+SET Nikolay mail1@mail.ru
+SET Alexander mail2@mail.ru
+SET mail3@mail Dmitriy
+SET mail4@mail Sergey
+
+GET Nikolay 
+GET Alexander 
+GET mail3@mail 
+GET mail4@mail 
+
+Не очень хорошо понял Редис. https://try.redis.io/ не очень помог выполнить ДЗ
